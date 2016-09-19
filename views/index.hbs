@@ -1,25 +1,69 @@
-<h1>MY TODO APP</h1>
-
-<ul>
-{{#each items}}
-<li>{{this.username}}</li> <span class='completed'><a href="/api/v1/items/delete/{{this.id}}">X</a></span>
-<p>{{this.email}}</p>
-
-{{/each}}
-</ul>
-<h3> Create a todo item </h3>
+<div class= 'title'>
+  <h1>THE NODE NOMAD</h1>
+</div>
+<h3> MAKE A BLOG POST </h3>
 <section>
-  <form class='add-item' action='/api/v1/items' method='post'>
+  <form class='add-blogpost' action='/api/v1/items' method='post'>
     <div>
-      <label for='user-name'> What is your username? </label>
-      <input type='text' name='username' value=''></input>
+      <div class "author">
+        <label for= "blogAuthor"> WHAT IS YOUR NAME </label>
+      </div>
+      <div>
+        <input type='text' name= "blog_author" value=''></input>
+      </div>
+      <div>
+        <label for='blogpostTitle'> Title </label>
+      </div>
+      <input type='text' name='blog_title' value=''></input>
     </div>
     <div>
-      <label for='item-description'>Email </label>
-      <textarea name='email' rows='8' cols= '40'></textarea>
+      <label for='item-description'> Blog Post  </label>
+      <div>
+        <textarea name='blog_content' rows='16' cols= '200'></textarea>
+      </div>
     </div>
     <div>
       <input type='submit'>
     </div>
   </form>
 </section>
+<ul>
+{{#each results}}
+<h2> BLOGPOSTS </h2>
+<p>Written By - {{this.blogAuthor}}</p>
+<p>Title -{{this.blogTitle}}</p>
+<p>Blogpost -{{this.blogContent}}</p>
+<span class='completed'><a href="/api/v1/items/delete/{{this.blogId}}">DELETE ME PLEASE</a></span>
+<span class='completed'><a href="/api/v1/items/{{this.blogId}}/editPost">UPDATE ME PLEASE</a></span>
+<h4> COMMENTS </h4>
+{{#each this.blogComments}}
+<p> Author - {{this.comment_author}}</p>
+<p> Comment - {{this.comment_content}}</p>
+{{/each}}
+<form class = 'add-comment' action='/api/v1/items/id/addComment' method = 'post'>
+  <h4> Add a comment </h4>
+  <div>
+    <div class "commentAuthor">
+      <label for = "commentAuthor"> who are you? </label>
+    </div>
+    <div>
+      <input type='text' name= "comment_author" value=''></input>
+    </div>
+  </div>
+  <div>
+    <div class="commentContent">
+      <label for="commentContent"> Be kind to one another </label>
+      <div>
+        <textarea name="comment_content" rows='3' cols='20'></textarea>
+      </div>
+    </div>
+  </div>
+  <div>
+    <input type='hidden' name='comment_on_blog_id' value={{this.blogId}}>
+  </div>
+  <div>
+    <input type='submit'>
+  </div>
+</form>
+{{/each}}
+</ul>

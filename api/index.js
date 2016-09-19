@@ -6,7 +6,7 @@ const pg = require('../db/knex_config.js');
 
 router.post('/v1/items',(req, res, next) => {
   //console.log(pg)
-  pg('users').insert(req.body)
+  pg('blogposts').insert(req.body)
   .then(() =>{
     res.redirect('/')
   })
@@ -17,9 +17,9 @@ router.post('/v1/items',(req, res, next) => {
 });
 
 router.get('/v1/items/delete/:id', (req, res, next) => {
-  // console.log("the id is: ", req.params.id);
+   console.log("the id is: ", req.params.id);
   // res.json(req.params)
-  pg('users').where('id', req.params.id).del()
+  pg('blogposts').where('id', req.params.id).del()
   .then((something)=>{
     console.log(something)
   res.redirect('/')
@@ -29,5 +29,46 @@ router.get('/v1/items/delete/:id', (req, res, next) => {
   next(err);
   });
 });
+
+router.get('/v1/items/:id/editPost', (req, res, next) =>{
+  pg('blogposts').where('id', req.params.id)
+  // res.render('update', )
+  // .update({
+  //   blog_author: req.body.blog_author,
+  //   blog_title: req.body.blog_title,
+  //   blog_content: req.body.blog_content
+  // })
+  .then((blogData)=>{
+    res.render('editPost', {blogData: blogData})
+  })
+  .catch((err) => {
+  console.error("error updating from db");
+  next(err);
+  })
+})
+
+router.post('/v1/items/id/addComment',(req, res, next) => {
+  res.json(req.body)
+  pg('comments').insert(req.body)
+  .then(() =>{
+    res.redirect('/')
+  })
+  .catch((err)=>{
+    console.log('there was an error')
+    next(err)
+  })
+});
+
+router.post('/v1/items/:id', (req, res, next) =>{
+  pg('blogposts').where('id', req.params.id)
+    .update({
+      blog_author: req.body.blog_author,
+      blog_title: req.body.blog_title,
+      blog_content: req.body.blog_content
+    })
+    .then(()=>{
+      res.redirect('/')
+    })
+})
 
 module.exports = router;

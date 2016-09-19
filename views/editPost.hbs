@@ -1,0 +1,27 @@
+{{#each blogData}}
+<section>
+  <form class='add-blogpost' action='/api/v1/items/{{this.id}}' method='post'>
+    <div>
+      <div class "author">
+        <label for= "blogAuthor"> WHAT IS YOUR NAME </label>
+      </div>
+      <div>
+        <input type='text' name= "blog_author" value='{{this.blog_author}}'></input>
+      </div>
+      <div>
+        <label for='blogpostTitle'> Title </label>
+      </div>
+      <input type='text' name='blog_title' value='{{this.blog_title}}'></input>
+    </div>
+    <div>
+      <label for='item-description'> Blog Post  </label>
+      <div>
+        <textarea name='blog_content' rows='16' cols= '200'> {{this.blog_content}}</textarea>
+      </div>
+    </div>
+    <div>
+      <input type='submit'>
+    </div>
+  </form>
+</section>
+{{/each}}
