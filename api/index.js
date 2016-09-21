@@ -32,12 +32,6 @@ router.get('/v1/items/delete/:id', (req, res, next) => {
 
 router.get('/v1/items/:id/editPost', (req, res, next) =>{
   pg('blogposts').where('id', req.params.id)
-  // res.render('update', )
-  // .update({
-  //   blog_author: req.body.blog_author,
-  //   blog_title: req.body.blog_title,
-  //   blog_content: req.body.blog_content
-  // })
   .then((blogData)=>{
     res.render('editPost', {blogData: blogData})
   })
